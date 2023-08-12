@@ -19,8 +19,7 @@ REVIEW = 22
 
 
 def get_redmine_server():
-    redmine = Redmine(COMPANY, username=USER, password=PASSWORD)
-    return redmine
+    return Redmine(COMPANY, username=USER, password=PASSWORD)
 
 
 def get_redmine_issue(redmine, branch):
@@ -44,10 +43,14 @@ def transition_issue(issue, status):
 
 def get_test_scenario_value(issue):
     list_resources = issue.custom_fields[RESOURCES]
-    for resource in list_resources:
-        if resource[NAME] == TEST_SCENARIO:
-            return resource[VALUE]
-    return None
+    return next(
+        (
+            resource[VALUE]
+            for resource in list_resources
+            if resource[NAME] == TEST_SCENARIO
+        ),
+        None,
+    )
 
 
 def assigned_issue_to_user_id(issue_id, user_id):

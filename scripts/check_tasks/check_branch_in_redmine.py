@@ -35,9 +35,8 @@ REDMINE_OSLL_HOST = 'https://dev.osll.ru'
 ID = 'id'
 
 def write_env_var(variable, value):
-    f = open(PROPSFILE, MODE_AW)
-    f.write(variable + '=' + value + '\n')
-    f.close()
+    with open(PROPSFILE, MODE_AW) as f:
+        f.write(f'{variable}={value}' + '\n')
 
 
 def get_comment(test_scenario_field=True, pullrequest=True):
